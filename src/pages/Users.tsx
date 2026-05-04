@@ -1,16 +1,13 @@
 import { useState, useMemo } from "react";
 import { useAppSelector, useAppDispatch } from "../store/hooks";
-import SingleSelect from "../components/ui/SingleSelect";
-import MultiSelect from "../components/ui/Multiselect";
-import Button from "../components/ui/Button";
+
 import { Trash2 } from "lucide-react";
 import { deleteUser } from "../store/usersSlice";
 import { AddUserModal } from "../components/modals/AddUserModal";
+import { FilterBar } from "../components/ui/FilterBar";
 
 const Users = () => {
-  const { users, countries, statuses, departments } = useAppSelector(
-    (state) => state.users,
-  );
+  const { users } = useAppSelector((state) => state.users);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -19,8 +16,6 @@ const Users = () => {
   const [selectedDepartments, setSelectedDepartments] = useState<string[]>([]);
   const [selectedCountry, setSelectedCountry] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("");
-
-  const isFiltersDisabled = selectedDepartments.length < 3;
 
   const filteredUsers = useMemo(() => {
     return users.filter((user) => {
@@ -51,65 +46,16 @@ const Users = () => {
           </h1>
         </div>
 
-        <div className="mb-6">
-          <p
-            className={`text-sm mb-4 transition-colors ${
-              isFiltersDisabled ? "text-red-500 font-medium" : "text-gray-500"
-            }`}
-          >
-            Please add at least 3 departments to be able to proceed next steps.
-          </p>
-
-          <div className="flex items-center justify-between gap-4">
-            <div className="flex items-center gap-4 flex-1">
-              <div className="w-64">
-                <MultiSelect
-                  options={departments}
-                  value={selectedDepartments}
-                  onChange={setSelectedDepartments}
-                  placeholder="Select departments"
-                />
-              </div>
-
-              <div
-                className={`w-48 transition-opacity ${isFiltersDisabled ? "opacity-40 pointer-events-none" : ""}`}
-              >
-                <SingleSelect
-                  options={countries}
-                  value={selectedCountry}
-                  onChange={setSelectedCountry}
-                  placeholder="Select country"
-                />
-              </div>
-
-              <div
-                className={`w-48 transition-opacity ${isFiltersDisabled ? "opacity-40 pointer-events-none" : ""}`}
-              >
-                <SingleSelect
-                  options={statuses}
-                  value={selectedStatus}
-                  onChange={setSelectedStatus}
-                  placeholder="All Statuses"
-                />
-              </div>
-
-              <button
-                onClick={handleResetFilters}
-                className="p-2 border cursor-pointer border-gray-300 hover:bg-gray-50 transition"
-              >
-                <Trash2 className="w-5 h-5 text-gray-400" />
-              </button>
-            </div>
-
-            <Button
-              variant="outline"
-              className="px-10 py-2"
-              onClick={() => setIsModalOpen(true)}
-            >
-              Add User
-            </Button>
-          </div>
-        </div>
+        <FilterBar
+          selectedDepartments={selectedDepartments}
+          setSelectedDepartments={setSelectedDepartments}
+          selectedCountry={selectedCountry}
+          setSelectedCountry={setSelectedCountry}
+          selectedStatus={selectedStatus}
+          setSelectedStatus={setSelectedStatus}
+          onReset={handleResetFilters}
+          onAddClick={() => setIsModalOpen(true)}
+        />
 
         <div className="border border-gray-200 rounded-sm overflow-hidden">
           <table className="w-full text-left border-collapse">
