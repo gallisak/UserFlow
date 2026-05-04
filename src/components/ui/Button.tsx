@@ -11,7 +11,7 @@ const Button = ({
   ...props
 }: ButtonProps) => {
   const baseStyles =
-    "px-10 py-2 text-sm transition-all duration-200 disabled:opacity-30 disabled:cursor-not-allowed";
+    "px-10 py-2 text-sm transition-all duration-200 disabled:opacity-30 cursor-pointer disabled:cursor-not-allowed";
 
   const variants = {
     primary: "border-2 border-[#C4C4C4] hover:bg-gray-50 active:bg-gray-100",

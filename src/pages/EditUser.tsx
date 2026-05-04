@@ -10,7 +10,6 @@ const EditUser = () => {
   );
 
   const [selectedUserValue, setSelectedUserValue] = useState("");
-
   const [formData, setFormData] = useState({
     name: "",
     department: "",
@@ -18,9 +17,17 @@ const EditUser = () => {
     status: "",
   });
 
+  const currentUser = users.find((u) => u.name === selectedUserValue);
+
+  const isChanged =
+    currentUser &&
+    (formData.name !== currentUser.name ||
+      formData.department !== currentUser.department.value ||
+      formData.country !== currentUser.country.value ||
+      formData.status !== currentUser.status.value);
+
   const handleUserChange = (userName: string) => {
     setSelectedUserValue(userName);
-
     const userToEdit = users.find((u) => u.name === userName);
     if (userToEdit) {
       setFormData({
@@ -28,6 +35,17 @@ const EditUser = () => {
         department: userToEdit.department.value,
         country: userToEdit.country.value,
         status: userToEdit.status.value,
+      });
+    }
+  };
+
+  const handleUndo = () => {
+    if (currentUser) {
+      setFormData({
+        name: currentUser.name,
+        department: currentUser.department.value,
+        country: currentUser.country.value,
+        status: currentUser.status.value,
       });
     }
   };
@@ -69,9 +87,9 @@ const EditUser = () => {
                 label="Department"
                 options={departments}
                 value={formData.department}
-                onChange={(val) => {
-                  setFormData({ ...formData, department: val });
-                }}
+                onChange={(val) =>
+                  setFormData({ ...formData, department: val })
+                }
                 placeholder="Select department"
               />
 
@@ -79,9 +97,7 @@ const EditUser = () => {
                 label="Country"
                 options={countries}
                 value={formData.country}
-                onChange={(val) => {
-                  setFormData({ ...formData, country: val });
-                }}
+                onChange={(val) => setFormData({ ...formData, country: val })}
                 placeholder="Select country"
               />
 
@@ -95,8 +111,13 @@ const EditUser = () => {
             </div>
 
             <div className="flex justify-end gap-6 pt-6">
-              <Button variant="outline">Undo</Button>
-              <Button variant="outline" disabled>
+              {isChanged && (
+                <Button variant="outline" onClick={handleUndo}>
+                  Undo
+                </Button>
+              )}
+
+              <Button variant="outline" disabled={!isChanged}>
                 Save
               </Button>
             </div>

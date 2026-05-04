@@ -55,9 +55,7 @@ const SingleSelect = ({
   return (
     <div className="flex flex-col gap-1 w-full relative" ref={wrapperRef}>
       {label && (
-        <label className="text-xs font-semibold text-[#5E626B] uppercase tracking-widest">
-          {label}
-        </label>
+        <label className="text-sm font-semibold text-[#5E626B]">{label}</label>
       )}
 
       <div
