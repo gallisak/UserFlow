@@ -5,7 +5,7 @@ import MultiSelect from "../components/ui/Multiselect";
 import Button from "../components/ui/Button";
 import { Trash2 } from "lucide-react";
 import { deleteUser } from "../store/usersSlice";
-import { AddUserModal } from "../components/AddUserModal";
+import { AddUserModal } from "../components/modals/AddUserModal";
 
 const Users = () => {
   const { users, countries, statuses, departments } = useAppSelector(
@@ -104,7 +104,6 @@ const Users = () => {
             <Button
               variant="outline"
               className="px-10 py-2"
-              disabled={isFiltersDisabled}
               onClick={() => setIsModalOpen(true)}
             >
               Add User
