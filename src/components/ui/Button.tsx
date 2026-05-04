@@ -1,28 +1,31 @@
-import type { ButtonHTMLAttributes } from "react";
+import React from "react";
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "primary" | "secondary" | "outline";
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: "outline" | "ghost";
 }
 
-const Button = ({
+const Button: React.FC<ButtonProps> = ({
   children,
-  variant = "primary",
+  variant = "outline",
   className = "",
+  disabled,
   ...props
-}: ButtonProps) => {
+}) => {
   const baseStyles =
-    "px-10 py-2 text-sm transition-all duration-200 disabled:opacity-30 cursor-pointer disabled:cursor-not-allowed";
-
+    "px-6 py-3 transition-all duration-200 text-sm font-medium border";
   const variants = {
-    primary: "border-2 border-[#C4C4C4] hover:bg-gray-50 active:bg-gray-100",
-    secondary: "bg-[#C4C4C4] text-gray-700 border border-[#C4C4C4]",
-    outline:
-      "border border-gray-300 text-gray-500 hover:border-gray-400 hover:text-gray-700",
+    outline: `
+      border-[#C4C4C4] text-black bg-transparent
+      hover:bg-[#C4C4C4] active:bg-[#C4C4C4]
+      disabled:border-gray-300 disabled:text-gray-400 disabled:bg-transparent disabled:cursor-not-allowed
+    `,
+    ghost: "border-transparent hover:bg-gray-100",
   };
 
   return (
     <button
       className={`${baseStyles} ${variants[variant]} ${className}`}
+      disabled={disabled}
       {...props}
     >
       {children}

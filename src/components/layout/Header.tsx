@@ -8,7 +8,7 @@ export const Header = () => {
         className={({ isActive }) =>
           `${
             isActive ? "bg-[#C4C4C4]" : "bg-[#ffffff]"
-          } border-2 border-[#C4C4C4] text-[14px] px-28 py-3.5 hover:text-blue-600 transition-colors`
+          } border-2 border-[#C4C4C4] text-[14px] px-28 py-3.5 hover:bg-[#C4C4C4] transition-colors`
         }
       >
         Edit Users
@@ -19,7 +19,7 @@ export const Header = () => {
         className={({ isActive }) =>
           `${
             isActive ? "bg-[#C4C4C4]" : "bg-[#ffffff]"
-          } border-2 border-[#C4C4C4] text-[14px] px-28 py-3.5 hover:text-blue-600 transition-colors`
+          } border-2 border-[#C4C4C4] text-[14px] px-28 py-3.5 hover:bg-[#C4C4C4] transition-colors`
         }
       >
         Users
