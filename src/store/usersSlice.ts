@@ -3,11 +3,10 @@ import { countries, departments, statuses, users } from "../data/allData";
 
 export interface User {
   name: string;
-  status: { name: string; value: string };
   department: { name: string; value: string };
   country: { name: string; value: string };
+  status: { name: string; value: string };
 }
-
 export interface UserFormData {
   name: string;
   department: string;
@@ -37,17 +36,23 @@ const usersSlice = createSlice({
       state,
       action: PayloadAction<{ originalName: string; newData: UserFormData }>,
     ) => {
-      const index = state.users.findIndex(
-        (u) => u.name === action.payload.originalName,
-      );
+      const { originalName, newData } = action.payload;
+      const index = state.users.findIndex((u) => u.name === originalName);
+
       if (index !== -1) {
-        const { name, department, country, status } = action.payload.newData;
+        const dept = state.departments.find(
+          (d) => d.value === newData.department,
+        );
+        const country = state.countries.find(
+          (c) => c.value === newData.country,
+        );
+        const status = state.statuses.find((s) => s.value === newData.status);
+
         state.users[index] = {
-          ...state.users[index],
-          name: name,
-          department: { name: department, value: department },
-          country: { name: country, value: country },
-          status: { name: status, value: status },
+          name: newData.name,
+          department: dept || state.users[index].department,
+          country: country || state.users[index].country,
+          status: status || state.users[index].status,
         };
       }
     },
@@ -55,8 +60,12 @@ const usersSlice = createSlice({
     deleteUser: (state, action: PayloadAction<string>) => {
       state.users = state.users.filter((user) => user.name !== action.payload);
     },
+
+    addUser: (state, action: PayloadAction<User>) => {
+      state.users.push(action.payload);
+    },
   },
 });
 
-export const { updateUser, deleteUser } = usersSlice.actions;
+export const { updateUser, deleteUser, addUser } = usersSlice.actions;
 export default usersSlice.reducer;

@@ -56,27 +56,33 @@ const EditUser = () => {
   };
 
   const handleSave = () => {
-    if (selectedUserValue) {
-      dispatch(
-        updateUser({
-          originalName: selectedUserValue,
-          newData: formData,
-        }),
-      );
-      navigate("/users");
-    }
+    if (!formData.name.trim() || !currentUser) return;
+
+    dispatch(
+      updateUser({
+        originalName: currentUser.name,
+        newData: {
+          name: formData.name.trim(),
+          department: formData.department,
+          country: formData.country,
+          status: formData.status,
+        },
+      }),
+    );
+
+    navigate("/users");
   };
 
   return (
     <div className="max-w-7xl mx-auto py-10 px-4">
       <div className="border-2 border-black p-12 pt-16">
         <div className="w-full flex justify-center mb-20">
-          <h1 className=" bg-white px-8 text-2xl tracking-[0.4em] uppercase font-medium text-black">
+          <h1 className="bg-white px-8 text-2xl tracking-[0.4em] uppercase font-medium text-black">
             Edit User
           </h1>
         </div>
 
-        <div className="max-w-100 mb-10">
+        <div className="max-w-md mb-10">
           <SingleSelect
             label="User"
             options={users.map((u) => ({ name: u.name, value: u.name }))}
@@ -104,9 +110,9 @@ const EditUser = () => {
                 label="Department"
                 options={departments}
                 value={formData.department}
-                onChange={(val) => {
-                  setFormData({ ...formData, department: val });
-                }}
+                onChange={(val) =>
+                  setFormData({ ...formData, department: val })
+                }
                 placeholder="Select department"
               />
 
@@ -114,9 +120,7 @@ const EditUser = () => {
                 label="Country"
                 options={countries}
                 value={formData.country}
-                onChange={(val) => {
-                  setFormData({ ...formData, country: val });
-                }}
+                onChange={(val) => setFormData({ ...formData, country: val })}
                 placeholder="Select country"
               />
 
@@ -139,6 +143,7 @@ const EditUser = () => {
                 variant="outline"
                 disabled={!isChanged}
                 onClick={handleSave}
+                className="w-48"
               >
                 Save
               </Button>

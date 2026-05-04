@@ -5,11 +5,14 @@ import MultiSelect from "../components/ui/Multiselect";
 import Button from "../components/ui/Button";
 import { Trash2 } from "lucide-react";
 import { deleteUser } from "../store/usersSlice";
+import { AddUserModal } from "../components/AddUserModal";
 
 const Users = () => {
   const { users, countries, statuses, departments } = useAppSelector(
     (state) => state.users,
   );
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const dispatch = useAppDispatch();
 
@@ -102,6 +105,7 @@ const Users = () => {
               variant="outline"
               className="px-10 py-2"
               disabled={isFiltersDisabled}
+              onClick={() => setIsModalOpen(true)}
             >
               Add User
             </Button>
@@ -112,16 +116,16 @@ const Users = () => {
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="border-b border-gray-200 bg-white">
-                <th className="py-5 px-8 text-sm font-bold text-black uppercase tracking-wider">
+                <th className="py-5 px-8 text-sm font-bold text-black tracking-wider">
                   Full Name
                 </th>
-                <th className="py-5 px-8 text-sm font-bold text-black uppercase tracking-wider">
+                <th className="py-5 px-8 text-sm font-bold text-black tracking-wider">
                   Department
                 </th>
-                <th className="py-5 px-8 text-sm font-bold text-black uppercase tracking-wider">
+                <th className="py-5 px-8 text-sm font-bold text-black tracking-wider">
                   Country
                 </th>
-                <th className="py-5 px-8 text-sm font-bold text-black uppercase tracking-wider">
+                <th className="py-5 px-8 text-sm font-bold text-black tracking-wider">
                   Status
                 </th>
                 <th className="py-5 px-8"></th>
@@ -163,6 +167,10 @@ const Users = () => {
           </table>
         </div>
       </div>
+      <AddUserModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
     </div>
   );
 };
