@@ -35,7 +35,7 @@ export const FilterBar = ({
     <div className="mb-6">
       <p
         className={`text-sm mb-4 transition-colors ${
-          isFiltersDisabled ? "text-red-500 font-medium" : "text-gray-500"
+          isFiltersDisabled ? "text-[#1B2438] font-medium" : "hidden"
         }`}
       >
         Please add at least 3 departments to be able to proceed next steps.
