@@ -8,9 +8,29 @@ const EditUser = () => {
   const { users, countries, statuses, departments } = useAppSelector(
     (state) => state.users,
   );
+
   const [selectedUserValue, setSelectedUserValue] = useState("");
 
-  const currentUser = users.find((u) => u.name === selectedUserValue);
+  const [formData, setFormData] = useState({
+    name: "",
+    department: "",
+    country: "",
+    status: "",
+  });
+
+  const handleUserChange = (userName: string) => {
+    setSelectedUserValue(userName);
+
+    const userToEdit = users.find((u) => u.name === userName);
+    if (userToEdit) {
+      setFormData({
+        name: userToEdit.name,
+        department: userToEdit.department.value,
+        country: userToEdit.country.value,
+        status: userToEdit.status.value,
+      });
+    }
+  };
 
   return (
     <div className="max-w-7xl mx-auto py-10 px-4">
@@ -26,54 +46,62 @@ const EditUser = () => {
             label="User"
             options={users.map((u) => ({ name: u.name, value: u.name }))}
             value={selectedUserValue}
-            onChange={setSelectedUserValue}
+            onChange={handleUserChange}
             placeholder="Select a user"
           />
         </div>
 
-        <div className="space-y-10">
-          <h2 className="text-xl font-medium text-black">User Information</h2>
+        {selectedUserValue && (
+          <div className="space-y-10">
+            <h2 className="text-xl font-medium text-black">User Information</h2>
 
-          <div className="grid grid-cols-2 gap-x-16 gap-y-10">
-            <Input
-              label="Full Name"
-              placeholder="Enter full name"
-              value={currentUser?.name || ""}
-              readOnly
-            />
+            <div className="grid grid-cols-2 gap-x-16 gap-y-10">
+              <Input
+                label="Full Name"
+                placeholder="Enter full name"
+                value={formData.name}
+                onChange={(e) =>
+                  setFormData({ ...formData, name: e.target.value })
+                }
+              />
 
-            <SingleSelect
-              label="Department"
-              options={departments}
-              value={currentUser?.department.value || ""}
-              onChange={() => {}}
-              placeholder="Select department"
-            />
+              <SingleSelect
+                label="Department"
+                options={departments}
+                value={formData.department}
+                onChange={(val) => {
+                  setFormData({ ...formData, department: val });
+                }}
+                placeholder="Select department"
+              />
 
-            <SingleSelect
-              label="Country"
-              options={countries}
-              value={currentUser?.country.value || ""}
-              onChange={() => {}}
-              placeholder="Select country"
-            />
+              <SingleSelect
+                label="Country"
+                options={countries}
+                value={formData.country}
+                onChange={(val) => {
+                  setFormData({ ...formData, country: val });
+                }}
+                placeholder="Select country"
+              />
 
-            <SingleSelect
-              label="Status"
-              options={statuses}
-              value={currentUser?.status.value || ""}
-              onChange={() => {}}
-              placeholder="Select status"
-            />
+              <SingleSelect
+                label="Status"
+                options={statuses}
+                value={formData.status}
+                onChange={(val) => setFormData({ ...formData, status: val })}
+                placeholder="Select status"
+              />
+            </div>
+
+            <div className="flex justify-end gap-6 pt-6">
+              <Button variant="outline">Undo</Button>
+              <Button variant="outline" disabled>
+                Save
+              </Button>
+            </div>
           </div>
-
-          <div className="flex justify-end gap-6 pt-6">
-            <Button variant="outline">Undo</Button>
-            <Button variant="outline" disabled>
-              Save
-            </Button>
-          </div>
-        </div>
+        )}
       </div>
     </div>
   );
