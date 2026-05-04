@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  NavLink,
+} from "react-router-dom";
 import Users from "./pages/Users";
 import EditUser from "./pages/EditUser";
 
@@ -7,18 +12,27 @@ function App() {
     <Router>
       <div className="min-h-screen bg-white">
         <nav className="flex justify-center gap-6 p-6 border-gray-900 border-b-2">
-          <Link
+          <NavLink
             to="/edit"
-            className="bg-[#C4C4C4] border-2 border-[#C4C4C4] text-[14px] px-28 py-3.5 hover:text-blue-600 transition-colors"
+            className={({ isActive }) =>
+              `${
+                isActive ? "bg-[#C4C4C4]" : "bg-[#ffffff]"
+              } border-2 border-[#C4C4C4] text-[14px] px-28 py-3.5 hover:text-blue-600 transition-colors`
+            }
           >
             Edit Users
-          </Link>
-          <Link
+          </NavLink>
+
+          <NavLink
             to="/users"
-            className="bg-[#ffffff] border-2 border-[#C4C4C4] text-[14px] px-28 py-3.5 hover:text-blue-600 transition-colors"
+            className={({ isActive }) =>
+              `${
+                isActive ? "bg-[#C4C4C4]" : "bg-[#ffffff]"
+              } border-2 border-[#C4C4C4] text-[14px] px-28 py-3.5 hover:text-blue-600 transition-colors`
+            }
           >
             Users
-          </Link>
+          </NavLink>
         </nav>
 
         <main className="p-6">
