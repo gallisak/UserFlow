@@ -1,5 +1,5 @@
 import SingleSelect from "./SingleSelect/SingleSelect";
-import MultiSelect from "../../components/ui/Multiselect";
+import MultiSelect from "./Multiselect/Multiselect";
 import Button from "../../components/ui/Button";
 import { useAppSelector } from "../../store/hooks";
 import { Trash2 } from "lucide-react";
