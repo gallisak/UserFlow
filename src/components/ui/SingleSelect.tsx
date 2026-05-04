@@ -1,4 +1,5 @@
 import { useState, useMemo, useRef, useEffect } from "react";
+import { ChevronDown } from "lucide-react";
 
 interface Option {
   name: string;
@@ -54,7 +55,7 @@ const SingleSelect = ({
   return (
     <div className="flex flex-col gap-1 w-full relative" ref={wrapperRef}>
       {label && (
-        <label className="text-xs font-semibold text-gray-700 uppercase tracking-widest">
+        <label className="text-xs font-semibold text-[#5E626B] uppercase tracking-widest">
           {label}
         </label>
       )}
@@ -69,7 +70,7 @@ const SingleSelect = ({
         <span
           className={`text-[10px] transition-transform ${isOpen ? "rotate-180" : ""}`}
         >
-          ▼
+          <ChevronDown />
         </span>
       </div>
 

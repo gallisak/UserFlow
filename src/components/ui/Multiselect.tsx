@@ -1,3 +1,4 @@
+import { ChevronDown } from "lucide-react";
 import { useState, useMemo, useRef, useEffect } from "react";
 
 interface Option {
@@ -74,7 +75,7 @@ const Multiselect = ({
             : placeholder}
         </span>
         <span className={`transition-transform ${isOpen ? "rotate-180" : ""}`}>
-          ▼
+          <ChevronDown />
         </span>
       </div>
 
