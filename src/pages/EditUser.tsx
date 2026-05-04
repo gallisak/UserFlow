@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../store/hooks";
 import { updateUser, type UserFormData } from "../store/usersSlice";
-import SingleSelect from "../components/ui/SingleSelect";
+import SingleSelect from "../components/ui/SingleSelect/SingleSelect";
 import Input from "../components/ui/Input";
 import Button from "../components/ui/Button";
 

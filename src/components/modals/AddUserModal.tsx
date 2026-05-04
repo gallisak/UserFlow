@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Input from "../ui/Input";
-import SingleSelect from "../ui/SingleSelect";
+import SingleSelect from "../ui/SingleSelect/SingleSelect";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { addUser } from "../../store/usersSlice";
 import Button from "../ui/Button";

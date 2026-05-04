@@ -1,4 +1,4 @@
-import { ChevronDown, Check } from "lucide-react"; // Додав Check для іконки
+import { ChevronDown, Check } from "lucide-react";
 import { useState, useMemo, useRef, useEffect } from "react";
 
 interface Option {
@@ -9,7 +9,7 @@ interface Option {
 interface MultiselectProps {
   label?: string;
   options: Option[];
-  value: string[]; // Використовуємо value замість selectedValues
+  value: string[];
   onChange: (values: string[]) => void;
   placeholder?: string;
 }
@@ -17,7 +17,7 @@ interface MultiselectProps {
 const Multiselect = ({
   label,
   options,
-  value = [], // Дефолтне значення - порожній масив
+  value = [],
   onChange,
   placeholder = "Select...",
 }: MultiselectProps) => {
@@ -99,7 +99,6 @@ const Multiselect = ({
                   onClick={() => toggleOption(option.value)}
                   className="flex items-center gap-3 p-3 hover:bg-gray-50 cursor-pointer text-sm"
                 >
-                  {/* Стилізація чорного чекбокса з макета */}
                   <div
                     className={`w-5 h-5 border flex items-center justify-center transition-colors ${isSelected ? "bg-black border-black" : "border-gray-400"}`}
                   >

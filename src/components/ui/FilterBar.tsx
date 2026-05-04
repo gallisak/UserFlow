@@ -1,4 +1,4 @@
-import SingleSelect from "../../components/ui/SingleSelect";
+import SingleSelect from "./SingleSelect/SingleSelect";
 import MultiSelect from "../../components/ui/Multiselect";
 import Button from "../../components/ui/Button";
 import { useAppSelector } from "../../store/hooks";
