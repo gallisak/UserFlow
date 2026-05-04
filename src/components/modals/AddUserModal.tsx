@@ -60,7 +60,7 @@ export const AddUserModal = ({
   };
 
   return (
-    <div className="fixed inset-0 z-100 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+    <div className="fixed inset-0 z-100 flex items-center justify-center bg-black/40 p-4">
       <div className="bg-white p-16 w-full max-w-4xl shadow-sm border border-gray-100">
         <h2 className="text-2xl tracking-[0.5em] uppercase font-medium text-black text-center mb-16">
           Add User
