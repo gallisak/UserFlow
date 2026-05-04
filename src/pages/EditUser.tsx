@@ -1,16 +1,21 @@
 import { useState } from "react";
-import { useAppSelector } from "../store/hooks";
+import { useNavigate } from "react-router-dom";
+import { useAppSelector, useAppDispatch } from "../store/hooks";
+import { updateUser, type UserFormData } from "../store/usersSlice";
 import SingleSelect from "../components/ui/SingleSelect";
 import Input from "../components/ui/Input";
 import Button from "../components/ui/Button";
 
 const EditUser = () => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
   const { users, countries, statuses, departments } = useAppSelector(
     (state) => state.users,
   );
 
   const [selectedUserValue, setSelectedUserValue] = useState("");
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<UserFormData>({
     name: "",
     department: "",
     country: "",
@@ -47,6 +52,18 @@ const EditUser = () => {
         country: currentUser.country.value,
         status: currentUser.status.value,
       });
+    }
+  };
+
+  const handleSave = () => {
+    if (selectedUserValue) {
+      dispatch(
+        updateUser({
+          originalName: selectedUserValue,
+          newData: formData,
+        }),
+      );
+      navigate("/users");
     }
   };
 
@@ -87,9 +104,9 @@ const EditUser = () => {
                 label="Department"
                 options={departments}
                 value={formData.department}
-                onChange={(val) =>
-                  setFormData({ ...formData, department: val })
-                }
+                onChange={(val) => {
+                  setFormData({ ...formData, department: val });
+                }}
                 placeholder="Select department"
               />
 
@@ -97,7 +114,9 @@ const EditUser = () => {
                 label="Country"
                 options={countries}
                 value={formData.country}
-                onChange={(val) => setFormData({ ...formData, country: val })}
+                onChange={(val) => {
+                  setFormData({ ...formData, country: val });
+                }}
                 placeholder="Select country"
               />
 
@@ -116,8 +135,11 @@ const EditUser = () => {
                   Undo
                 </Button>
               )}
-
-              <Button variant="outline" disabled={!isChanged}>
+              <Button
+                variant="outline"
+                disabled={!isChanged}
+                onClick={handleSave}
+              >
                 Save
               </Button>
             </div>
