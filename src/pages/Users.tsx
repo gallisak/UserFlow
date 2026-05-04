@@ -1,24 +1,24 @@
 import { useState, useMemo } from "react";
-import { useAppSelector } from "../store/hooks";
+import { useAppSelector, useAppDispatch } from "../store/hooks";
 import SingleSelect from "../components/ui/SingleSelect";
 import MultiSelect from "../components/ui/Multiselect";
 import Button from "../components/ui/Button";
 import { Trash2 } from "lucide-react";
+import { deleteUser } from "../store/usersSlice";
 
 const Users = () => {
   const { users, countries, statuses, departments } = useAppSelector(
     (state) => state.users,
   );
 
-  // Стейт для фільтрів
+  const dispatch = useAppDispatch();
+
   const [selectedDepartments, setSelectedDepartments] = useState<string[]>([]);
   const [selectedCountry, setSelectedCountry] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("");
 
-  // Правило: блокуємо все, якщо вибрано < 3 департаментів
   const isFiltersDisabled = selectedDepartments.length < 3;
 
-  // Логіка фільтрації
   const filteredUsers = useMemo(() => {
     return users.filter((user) => {
       const matchDept =
@@ -108,7 +108,6 @@ const Users = () => {
           </div>
         </div>
 
-        {/* Таблиця */}
         <div className="border border-gray-200 rounded-sm overflow-hidden">
           <table className="w-full text-left border-collapse">
             <thead>
@@ -147,7 +146,14 @@ const Users = () => {
                     {user.status.name}
                   </td>
                   <td className="py-6 px-8 text-right">
-                    <button className="text-gray-400 cursor-pointer hover:text-red-500 transition">
+                    <button
+                      onClick={() => {
+                        if (window.confirm(`Delete user ${user.name}?`)) {
+                          dispatch(deleteUser(user.name));
+                        }
+                      }}
+                      className="text-gray-400 cursor-pointer hover:text-red-500 transition"
+                    >
                       <Trash2 className="w-5 h-5" />
                     </button>
                   </td>
