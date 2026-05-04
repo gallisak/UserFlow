@@ -9,13 +9,13 @@ function App() {
         <nav className="flex justify-center gap-6 p-6 border-gray-900 border-b-2">
           <Link
             to="/edit"
-            className="bg-[#C4C4C4] text-[14px] px-28 py-3.5 hover:text-blue-600 transition-colors"
+            className="bg-[#C4C4C4] border-2 border-[#C4C4C4] text-[14px] px-28 py-3.5 hover:text-blue-600 transition-colors"
           >
             Edit Users
           </Link>
           <Link
             to="/users"
-            className="bg-[#C4C4C4] text-[14px] px-28 py-3.5 hover:text-blue-600 transition-colors"
+            className="bg-[#ffffff] border-2 border-[#C4C4C4] text-[14px] px-28 py-3.5 hover:text-blue-600 transition-colors"
           >
             Users
           </Link>
