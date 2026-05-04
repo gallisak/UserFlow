@@ -1,5 +1,7 @@
+import { useState, useMemo } from "react";
 import { useAppSelector } from "../store/hooks";
 import SingleSelect from "../components/ui/SingleSelect";
+import MultiSelect from "../components/ui/Multiselect";
 import Button from "../components/ui/Button";
 import { Trash2 } from "lucide-react";
 
@@ -7,6 +9,35 @@ const Users = () => {
   const { users, countries, statuses, departments } = useAppSelector(
     (state) => state.users,
   );
+
+  // Стейт для фільтрів
+  const [selectedDepartments, setSelectedDepartments] = useState<string[]>([]);
+  const [selectedCountry, setSelectedCountry] = useState("");
+  const [selectedStatus, setSelectedStatus] = useState("");
+
+  // Правило: блокуємо все, якщо вибрано < 3 департаментів
+  const isFiltersDisabled = selectedDepartments.length < 3;
+
+  // Логіка фільтрації
+  const filteredUsers = useMemo(() => {
+    return users.filter((user) => {
+      const matchDept =
+        selectedDepartments.length === 0 ||
+        selectedDepartments.includes(user.department.value);
+      const matchCountry =
+        !selectedCountry || user.country.value === selectedCountry;
+      const matchStatus =
+        !selectedStatus || user.status.value === selectedStatus;
+
+      return matchDept && matchCountry && matchStatus;
+    });
+  }, [users, selectedDepartments, selectedCountry, selectedStatus]);
+
+  const handleResetFilters = () => {
+    setSelectedDepartments([]);
+    setSelectedCountry("");
+    setSelectedStatus("");
+  };
 
   return (
     <div className="max-w-7xl mx-auto py-10 px-4">
@@ -18,50 +49,66 @@ const Users = () => {
         </div>
 
         <div className="mb-6">
-          <p className="text-gray-500 text-sm mb-4">
+          <p
+            className={`text-sm mb-4 transition-colors ${
+              isFiltersDisabled ? "text-red-500 font-medium" : "text-gray-500"
+            }`}
+          >
             Please add at least 3 departments to be able to proceed next steps.
           </p>
 
           <div className="flex items-center justify-between gap-4">
             <div className="flex items-center gap-4 flex-1">
               <div className="w-64">
-                <SingleSelect
+                <MultiSelect
                   options={departments}
-                  value=""
-                  onChange={() => {}}
-                  placeholder="Selected (2)"
+                  value={selectedDepartments}
+                  onChange={setSelectedDepartments}
+                  placeholder="Select departments"
                 />
               </div>
 
-              <div className="w-48">
+              <div
+                className={`w-48 transition-opacity ${isFiltersDisabled ? "opacity-40 pointer-events-none" : ""}`}
+              >
                 <SingleSelect
                   options={countries}
-                  value=""
-                  onChange={() => {}}
+                  value={selectedCountry}
+                  onChange={setSelectedCountry}
                   placeholder="Select country"
                 />
               </div>
 
-              <div className="w-48">
+              <div
+                className={`w-48 transition-opacity ${isFiltersDisabled ? "opacity-40 pointer-events-none" : ""}`}
+              >
                 <SingleSelect
                   options={statuses}
-                  value=""
-                  onChange={() => {}}
+                  value={selectedStatus}
+                  onChange={setSelectedStatus}
                   placeholder="All Statuses"
                 />
               </div>
 
-              <button className="p-2 border cursor-pointer border-gray-300 hover:bg-gray-50 transition">
+              <button
+                onClick={handleResetFilters}
+                className="p-2 border cursor-pointer border-gray-300 hover:bg-gray-50 transition"
+              >
                 <Trash2 className="w-5 h-5 text-gray-400" />
               </button>
             </div>
 
-            <Button variant="outline" className="px-10 py-2">
+            <Button
+              variant="outline"
+              className="px-10 py-2"
+              disabled={isFiltersDisabled}
+            >
               Add User
             </Button>
           </div>
         </div>
 
+        {/* Таблиця */}
         <div className="border border-gray-200 rounded-sm overflow-hidden">
           <table className="w-full text-left border-collapse">
             <thead>
@@ -82,7 +129,7 @@ const Users = () => {
               </tr>
             </thead>
             <tbody className="bg-white">
-              {users.map((user, index) => (
+              {filteredUsers.map((user, index) => (
                 <tr
                   key={index}
                   className="border-b border-gray-100 last:border-0 hover:bg-gray-50 transition"
